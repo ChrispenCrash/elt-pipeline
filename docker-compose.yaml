@@ -13,6 +13,11 @@ services:
       POSTGRES_PASSWORD: secret
     volumes:
       - ./source_db_init/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   destination_postgres:
     image: postgres:9.2
@@ -26,6 +31,11 @@ services:
       POSTGRES_DB: destination_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     # volumes:
     #   - destination_db_data:/var/lib/postgresql/data
 
@@ -56,10 +66,15 @@ services:
       - ./postgres_transformations:/dbt
       - ~/.dbt:/root
     depends_on:
-      - elt_script
+      destination_postgres:
+        condition: service_healthy
+      source_postgres:
+        condition: service_healthy
+      elt_script:
+        condition: service_started
     environment:
-      DBT_PROFILE: default
-      DBT_TARGET: dev
+      DBT_PROFILE: "default"
+      DBT_TARGET: "dev"
 
 networks:
   elt_network:
