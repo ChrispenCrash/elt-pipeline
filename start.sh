@@ -1,3 +1,3 @@
 cron &
 
-python3 /app/etl_script.py
+python /app/etl_script.py
