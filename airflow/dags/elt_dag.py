@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 from airflow import DAG
-from docker.types import Mount
+from docker.types import Mount  # type: ignore
 
-from airflow.operators.python_operator import PythonOperator
-from airflow.operators.bash import BashOperator
+from airflow.operators.python_operator import PythonOperator  # type: ignore
+from airflow.operators.bash import BashOperator  # type: ignore
 
-from airflow.providers.docker.operators.docker import DockerOperator
+from airflow.providers.docker.operators.docker import DockerOperator  # type: ignore
 import subprocess
 
 default_args = {
