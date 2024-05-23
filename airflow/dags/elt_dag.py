@@ -2,8 +2,8 @@ from datetime import datetime
 from airflow import DAG
 from docker.types import Mount  # type: ignore
 from airflow.utils.dates import days_ago  # type: ignore
-from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
-from airflow.providers.docker.operators.docker import DockerOperator
+from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator  # type: ignore
+from airflow.providers.docker.operators.docker import DockerOperator  # type: ignore
 
 CONN_ID = "125ad786-e2f3-4742-b284-435177f988b8"
 
