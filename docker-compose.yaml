@@ -34,43 +34,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    # volumes:
-    #   - destination_db_data:/var/lib/postgresql/data
-
-    # elt_script:
-    #   build:
-    #     context: ./elt
-    #     dockerfile: Dockerfile # Name of the Dockerfile, if it's something other than "Dockerfile", specify here
-    #   command: [ "python", "elt_script.py" ]
-    #   networks:
-    #     - elt_network
-    #   depends_on:
-    #     destination_postgres:
-    #       condition: service_healthy
-    #     source_postgres:
-    #       condition: service_healthy
-
-    # dbt:
-    #   image: ghcr.io/dbt-labs/dbt-postgres:1.7.14
-    #   command:
-    #     [
-    #       "run",
-    #       "--profiles-dir",
-    #       "/root",
-    #       "--project-dir",
-    #       "/dbt",
-    #       "--full-refresh"
-    #     ]
-    #   networks:
-    #     - elt_network
-    #   volumes:
-    #     - ./postgres_transformations:/dbt
-    #     - ~/.dbt:/root
-    #   depends_on:
-    #     - elt_script
-    #   environment:
-    #     DBT_PROFILE: "default"
-    #     DBT_TARGET: "dev"
 
   postgres:
     image: postgres:latest
@@ -80,6 +43,8 @@ services:
       - POSTGRES_USER=airflow
       - POSTGRES_PASSWORD=airflow
       - POSTGRES_DB=airflow
+    volumes:
+      - airflow_db_data:/var/lib/postgresql/data
 
   init-airflow:
     image: apache/airflow:latest
@@ -157,3 +122,4 @@ networks:
 
 volumes:
   destination_db_data:
+  airflow_db_data:
