@@ -5,7 +5,7 @@ from airflow.utils.dates import days_ago  # type: ignore
 from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator  # type: ignore
 from airflow.providers.docker.operators.docker import DockerOperator  # type: ignore
 
-CONN_ID = "125ad786-e2f3-4742-b284-435177f988b8"
+CONN_ID = "<replace with Airbyte connection ID>"
 
 default_args = {
     "owner": "airflow",
